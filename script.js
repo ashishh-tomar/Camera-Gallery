@@ -6,6 +6,8 @@ let captureCont=document.querySelector(".capture-cont");
 let recordFlag=false;
 let captureFlag=false;
 
+let transparentColor="transparent";
+
 
 
 let recorder;
@@ -59,6 +61,47 @@ recordCont.addEventListener("click",(e)=>{
 
 });
 
+
+
+captureCont.addEventListener("click",(e)=>{
+
+    captureFlag=!captureFlag;
+
+    if(captureFlag===true)
+    {
+        captureBtn.classList.add("scale-capture");
+    }
+    else
+    {
+        captureBtn.classList.remove("scale-capture");
+    }
+
+    let canvas=document.createElement("canvas");
+    canvas.width=video.videoWidth;
+    canvas.height=video.videoHeight;
+    
+    let tool=canvas.getContext("2d");
+    tool.drawImage(video,0,0,canvas.width,canvas.height);
+
+    //Fill Filter
+    tool.fillStyle=transparentColor;
+    tool.fillRect(0,0,canvas.width,canvas.height);
+
+    let imageUrl=canvas.toDataURL();
+    let a=document.createElement("a");
+    a.href=imageUrl;
+    a.download="image.jpg";
+    a.click();
+});
+
+
+
+
+
+
+
+
+// TImer Logic
 let timerId;
 let counter=0;
 let timer=document.querySelector(".timer");
@@ -92,4 +135,23 @@ function stopTimer(){
     timer.innerText="00:00:00";
     timer.style.display="none";
 }
+
+
+
+//Filter logic
+
+let allFilters=document.querySelectorAll(".filter");
+let filterLayer=document.querySelector(".filter-layer");
+
+allFilters.forEach((filterEle)=>{
+    filterEle.addEventListener("click",(e)=>{
+    
+        //get
+        transparentColor=window.getComputedStyle(filterEle).getPropertyValue("background-color");
+        //set
+        filterLayer.style.backgroundColor=transparentColor;
+        
+    })
+})
+
 
