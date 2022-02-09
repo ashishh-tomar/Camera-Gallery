@@ -90,7 +90,7 @@ video{
 
 .timer-cont{
     position: absolute;
-    bottom:10rem;
+    bottom:8rem;
     left: 5rem;
     color: white;
     font-size: 0.8rem;
@@ -150,4 +150,20 @@ video{
     background-blend-mode: color-burn;
     
     z-index: 1;
+}
+
+.material-icons{
+    color: white;
+}
+
+.gallery{
+    position: absolute;
+    right: 6rem;
+    bottom: 7rem;
+    font-size: 3rem;
+    z-index: 2;
+}
+
+.gallery:hover{
+    cursor:pointer;
 }

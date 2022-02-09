@@ -34,10 +34,25 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream)=>{
         //conversion of media chunks to video
         let blob=new Blob(chunks,{type : "video/mp4"});
         let videoUrl=URL.createObjectURL(blob);
-        let a=document.createElement("a");
-        a.href=videoUrl;
-        a.download="stream.mp4";
-        a.click();
+
+        if(db)
+        {
+            let videoId=shortid();
+            let dbTransaction=db.transaction("video","readwrite");
+
+            let videoStore=dbTransaction.objectStore("video");
+            let videoEntery={
+                id:`vid-${videoId}`,
+                blobData : blob
+            };
+
+            videoStore.add(videoEntery);
+        }
+
+        // let a=document.createElement("a");
+        // a.href=videoUrl;
+        // a.download="stream.mp4";
+        // a.click();
     })
 })
 
@@ -88,10 +103,26 @@ captureCont.addEventListener("click",(e)=>{
     tool.fillRect(0,0,canvas.width,canvas.height);
 
     let imageUrl=canvas.toDataURL();
-    let a=document.createElement("a");
-    a.href=imageUrl;
-    a.download="image.jpg";
-    a.click();
+
+
+    if(db)
+        {
+            let imageId=shortid();
+            let dbTransaction=db.transaction("image","readwrite");
+
+            let imageStore=dbTransaction.objectStore("image");
+            let imageEntery={
+                id:`img-${imageId}`,
+                url : imageUrl
+            };
+
+            imageStore.add(imageEntery);
+        }
+
+    // let a=document.createElement("a");
+    // a.href=imageUrl;
+    // a.download="image.jpg";
+    // a.click();
 });
 
 
